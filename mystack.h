@@ -15,7 +15,7 @@ class MyStack
 private:
    T *stackArray;  // Pointer to the stack array
    int stackSize;    // The stack size
-   int top;		//index of the top element in the stack array
+   int topIndex;		//index of the top element in the stack array
 
 public:
    // Constructor
@@ -49,14 +49,14 @@ template <class T>
 MyStack<T>::MyStack(int size) {
    stackArray = new T[size];
    stackSize = size;
-   top = -1;
+   topIndex = -1;
 }
 
 //***********************************************
 // Copy constructor                             *
 //***********************************************
 template <class T>
-MyStack<T>::MyStack(const MyStack<T>::MyStack & obj) {
+MyStack<T>::MyStack(const MyStack<T> & obj) {
    // Create the stack array.
    if (obj.stackSize > 0)
       stackArray = new T[obj.stackSize];
@@ -71,14 +71,14 @@ MyStack<T>::MyStack(const MyStack<T>::MyStack & obj) {
       stackArray[count] = obj.stackArray[count];
 
    // Set the top of the stack.
-   top = obj.top;
+   topIndex = obj.topIndex;
 }
 
 //***********************************************
 // Operator= overloading                        *
 //***********************************************
 template <class T>
-MyStack<T>::MyStack & operator=(const MyStack<T>::MyStack & obj) {
+MyStack<T>& MyStack<T>::operator=(const MyStack<T> & obj) {
    // Create the stack array.
    if (obj.stackSize > 0)
       stackArray = new T[obj.stackSize];
@@ -93,7 +93,7 @@ MyStack<T>::MyStack & operator=(const MyStack<T>::MyStack & obj) {
       stackArray[count] = obj.stackArray[count];
 
    // Set the top of the stack.
-   top = obj.top;
+   topIndex = obj.topIndex;
 
    return *this;
 }
@@ -101,9 +101,10 @@ MyStack<T>::MyStack & operator=(const MyStack<T>::MyStack & obj) {
 //***********************************************
 // Destructor                                   *
 //***********************************************
- MyStack::~MyStack() {
-     if (myList) {
-         delete[] myList;
+template <class T>
+MyStack<T>::~MyStack() {
+     if (stackArray) {
+         delete[] stackArray;
      }
  }
 
@@ -116,8 +117,8 @@ void MyStack<T>::push(T value) {
       std::cout << "The stack is full.\n";
    }
    else {
-      top++;
-      stackArray[top] = value;
+      topIndex++;
+      stackArray[topIndex] = value;
    }
 }
 
@@ -125,22 +126,23 @@ void MyStack<T>::push(T value) {
 // Pop                                          *
 //***********************************************
 template <class T>
-T MyStack<T>::pop(T value) {
+T MyStack<T>::pop() {
    if (isEmpty()) {
       std::cout << "The stack is empty.\n";
    }
    else {
-      top--;
-      stackArray[top + 1];
+      topIndex--;
    }
+   return stackArray[topIndex + 1];
+
 }
 
 //***********************************************
 // Top                                          *
 //***********************************************
 template <class T>
-T MyStack<T>::top(T value) {
-   return stackArray[top];
+T MyStack<T>::top() {
+   return stackArray[topIndex];
 }
 
 //***********************************************
@@ -148,7 +150,7 @@ T MyStack<T>::top(T value) {
 //***********************************************
 template <class T>
 bool MyStack<T>::isFull() const {
-   return (top == stackSize - 1);
+   return (topIndex == stackSize - 1);
 }
 
 //***********************************************
@@ -156,7 +158,7 @@ bool MyStack<T>::isFull() const {
 //***********************************************
 template <class T>
 bool MyStack<T>::isEmpty() const {
-   return (top <= -1);
+   return (topIndex <= -1);
 }
 
 //***********************************************
@@ -164,7 +166,7 @@ bool MyStack<T>::isEmpty() const {
 //***********************************************
 template <class T>
 int MyStack<T>::size() const {
-   return stackSize;
+   return topIndex + 1;
 }
 
 #endif
