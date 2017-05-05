@@ -1,12 +1,148 @@
 #include <iostream>
 #include "towers.h"
 #include "mystack.h"
-
+#include <cmath>
 using namespace std;
-//YOUR CODE
-//......
+// initialize start-tower by putting discs in, then print out the status of three towers after initialized
+void Towers::setDisks()
+{
+	for (int i = numDisk; i > 0; i--) {
+		peg1->push(i);
+	}
+	plotPegs();
+}
+// move n discs from tower s to tower d by using a temporary tower t
+void Towers::move(int n, MyStack<int>* s, MyStack<int>* t, MyStack<int>* d)
+{
+	int i, x, a, b;
+    for (i = 0; i < (pow(2,n)); i++)
+    {
+    	plotPegs();
+        x = s->top();
+        if (i % 2 == 0)
+        {
+            if (x == 1)
+            {
+                d->push(s->pop());
+            }
+            else if (x == 2)
+            {
+                s->push(t->pop());
+            }
+            else if (x == 3)
+            {
+                t->push(d->pop());
+            }
+        }
+        else
+        {
+            if (x == 1)
+            {
+                a = t->pop();
+                b = d->pop();
+                if (a < b && b != 999)
+                {
+                    d->push(b);
+                    d->push(a);
+                }
+                else if (a > b && a != 999)
+                {
+                    t->push(a);
+                    t->push(b);
+                }
+                else if (b == 999)
+                {
+                    d->push(a);
+                }
+                else if (a == 999)
+                {
+                    t->push(b);
+                }
+            }
+            else if (x == 2)
+            {
+                a = s->pop();
+                b = d->pop();
+                if (a < b && b != 999)
+                {
+                    d->push(b);
+                    d->push(a);
+                }
+                else if (a > b && a != 999)
+                {
+                    s->push(a);
+                    s->push(b);
+                }
+                else if (b == 999)
+                {
+                    d->push(a);
+                }
+                else if (a == 999)
+                {
+                    s->push(b);
+                }
+            }
+            else if (x == 3)
+            {
+                a = s->pop();
+                b = t->pop();
+                if (a < b && b != 999)
+                {
+                    t->push(b);
+                    t->push(a);
+                }
+                else if (a > b && a != 999)
+                {
+                    s->push(a);
+                    s->push(b);
+                }
+                else if (b == 999)
+                {
+                    t->push(a);
+                }
+                else if (a == 999)
+                {
+                    s->push(b);
+                }
+            }
+        }
+    }
+}
+//move one discs from tower s to tower d
+void Towers::moveOne(MyStack<int>* s, MyStack<int>* d) {
+	d->push(s->pop());
+}
 
+//destructor
+Towers::~Towers()
+{
+    while (!peg1->isEmpty()) {
+    	peg1->pop();
+    }
+    while (!peg2->isEmpty()) {
+    	peg2->pop();
+    }
+    while (!peg3->isEmpty()) {
+    	peg3->pop();
+    }
 
+}
+Towers::Towers(int num) {
+	numDisk = num;
+	setDisks();
+}
+
+//copy constructor
+// Towers::Towers(const Towers & value)
+// {
+
+// }
+
+// //operator= overloading
+// Towers& Towers::operator=(const Towers &)
+// {
+
+// }
 
 //display disks on the three pegs in the console window (stdout)
 //DO NOT MODIFY THIS FUNCTION
