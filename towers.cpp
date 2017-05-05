@@ -51,16 +51,27 @@ Towers::Towers(int num) {
 }
 
 // copy constructor
- Towers::Towers(const Towers & value)
+ Towers::Towers(const Towers & obj)
  {
+	numDisk = obj.numDisk;
+    peg1 = new MyStack<int>(numDisk);
+    peg2 = new MyStack<int>(numDisk);
+    peg3 = new MyStack<int>(numDisk);
 
+	setDisks();
  }
 
-// //operator= overloading
-// Towers& Towers::operator=(const Towers & val)
-// {
-//     return val;
-// }
+//operator= overloading
+Towers& Towers::operator=(const Towers & obj)
+{
+	numDisk = obj.numDisk;
+    peg1 = new MyStack<int>(numDisk);
+    peg2 = new MyStack<int>(numDisk);
+    peg3 = new MyStack<int>(numDisk);
+
+	setDisks();
+	return *this;
+}
 
 //display disks on the three pegs in the console window (stdout)
 //DO NOT MODIFY THIS FUNCTION
