@@ -57,8 +57,6 @@ Towers::Towers(int num) {
     peg1 = new MyStack<int>(numDisk);
     peg2 = new MyStack<int>(numDisk);
     peg3 = new MyStack<int>(numDisk);
-
-	setDisks();
  }
 
 //operator= overloading
@@ -69,7 +67,6 @@ Towers& Towers::operator=(const Towers & obj)
     peg2 = new MyStack<int>(numDisk);
     peg3 = new MyStack<int>(numDisk);
 
-	setDisks();
 	return *this;
 }
 
