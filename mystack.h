@@ -134,7 +134,6 @@ T MyStack<T>::pop() {
       topIndex--;
    }
    return stackArray[topIndex + 1];
-
 }
 
 //***********************************************
@@ -150,7 +149,7 @@ T MyStack<T>::top() {
 //***********************************************
 template <class T>
 bool MyStack<T>::isFull() const {
-   return (topIndex == stackSize - 1);
+    return (topIndex == stackSize - 1);
 }
 
 //***********************************************

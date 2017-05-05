@@ -14,99 +14,13 @@ void Towers::setDisks()
 // move n discs from tower s to tower d by using a temporary tower t
 void Towers::move(int n, MyStack<int>* s, MyStack<int>* t, MyStack<int>* d)
 {
-	int i, x, a, b;
-    for (i = 0; i < (pow(2,n)); i++)
-    {
-    	plotPegs();
-        x = s->top();
-        if (i % 2 == 0)
-        {
-            if (x == 1)
-            {
-                d->push(s->pop());
-            }
-            else if (x == 2)
-            {
-                s->push(t->pop());
-            }
-            else if (x == 3)
-            {
-                t->push(d->pop());
-            }
-        }
-        else
-        {
-            if (x == 1)
-            {
-                a = t->pop();
-                b = d->pop();
-                if (a < b && b != 999)
-                {
-                    d->push(b);
-                    d->push(a);
-                }
-                else if (a > b && a != 999)
-                {
-                    t->push(a);
-                    t->push(b);
-                }
-                else if (b == 999)
-                {
-                    d->push(a);
-                }
-                else if (a == 999)
-                {
-                    t->push(b);
-                }
-            }
-            else if (x == 2)
-            {
-                a = s->pop();
-                b = d->pop();
-                if (a < b && b != 999)
-                {
-                    d->push(b);
-                    d->push(a);
-                }
-                else if (a > b && a != 999)
-                {
-                    s->push(a);
-                    s->push(b);
-                }
-                else if (b == 999)
-                {
-                    d->push(a);
-                }
-                else if (a == 999)
-                {
-                    s->push(b);
-                }
-            }
-            else if (x == 3)
-            {
-                a = s->pop();
-                b = t->pop();
-                if (a < b && b != 999)
-                {
-                    t->push(b);
-                    t->push(a);
-                }
-                else if (a > b && a != 999)
-                {
-                    s->push(a);
-                    s->push(b);
-                }
-                else if (b == 999)
-                {
-                    t->push(a);
-                }
-                else if (a == 999)
-                {
-                    s->push(b);
-                }
-            }
-        }
-    }
+	if (n > 0) {
+		move(n - 1, s, d, t);
+		int foo = s->pop();
+		d->push(foo);
+		plotPegs();
+		move(n-1, t, s, d);
+	}
 }
 //move one discs from tower s to tower d
 void Towers::moveOne(MyStack<int>* s, MyStack<int>* d) {
@@ -129,19 +43,23 @@ Towers::~Towers()
 }
 Towers::Towers(int num) {
 	numDisk = num;
+    peg1 = new MyStack<int>(num);
+    peg2 = new MyStack<int>(num);
+    peg3 = new MyStack<int>(num);
+
 	setDisks();
 }
 
-//copy constructor
-// Towers::Towers(const Towers & value)
-// {
+// copy constructor
+ Towers::Towers(const Towers & value)
+ {
 
-// }
+ }
 
 // //operator= overloading
-// Towers& Towers::operator=(const Towers &)
+// Towers& Towers::operator=(const Towers & val)
 // {
-
+//     return val;
 // }
 
 //display disks on the three pegs in the console window (stdout)
